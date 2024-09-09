@@ -11,6 +11,16 @@ jobs:
         extensions: mbstring, intl
         ini-values: post_max_size=256M, max_execution_time=180
         coverage: xdebug
-        tools: php-cs-fixer, phpunit
+        tools: php-cs-fixer, phpunit, phpstan, psalm, phpcs, cs2pr
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Setup problem matchers for php
+      run: echo "::add-matcher::${{ runner.tool_cache}}/php.json"
+    - name: Setup problem matchers for PHPUnit
+      run: echo "::add-matcher::${{ runner.tool_cache}}/phpunit.json"
+    - name: Setup problem matchers for PHPStan
+      run: phpstan analyse src
+    - name: Setup problem matchers for Psalm
+      run: psalm --output-format=github
+    - name: Run PHPCS
+      run: phpcs -q --report=checkstyle src|cs2pr
