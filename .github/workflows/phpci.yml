@@ -23,4 +23,4 @@ jobs:
     #- name: Setup problem matchers for Psalm
     #  run: psalm --output-format=github
     - name: Run PHPCS
-      run: phpcs -q --report=checkstyle src|cs2pr
+      run: phpcs -q --report=checkstyle cs2pr
