@@ -22,8 +22,8 @@ jobs:
     #  run: phpstan analyse src
     #- name: Setup problem matchers for Psalm
     #  run: psalm --output-format=github
-    - name: PHP Coding Standards Fixer
-      run: php-cs-fixer fix --dry-run --format=checkstyle | cs2pr
+    #- name: PHP Coding Standards Fixer
+    #  run: php-cs-fixer fix --dry-run --format=checkstyle | cs2pr
     #- name: Run PHPCS
     #  run: phpcs --report=checkstyle -q /path/to/code | cs2pr
     - name: Check PHP code style
