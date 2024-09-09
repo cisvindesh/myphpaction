@@ -14,6 +14,12 @@ jobs:
         tools: php-cs-fixer, phpunit, phpstan, psalm, phpcs, cs2pr
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - run: |
+                composer install # install your apps dependencies
+                composer require staabm/annotate-pull-request-from-checkstyle # install cs2pr
+                vendor/bin/phpstan analyse --error-format=checkstyle | vendor/bin/cs2pr
+                
     #- name: Setup problem matchers for php
     #  run: echo "::add-matcher::${{ runner.tool_cache}}/php.json"
     #- name: Setup problem matchers for PHPUnit
@@ -26,9 +32,9 @@ jobs:
     #  run: php-cs-fixer fix --dry-run --format=checkstyle | cs2pr
     #- name: Run PHPCS
     #  run: phpcs --report=checkstyle -q /path/to/code | cs2pr
-    - name: Check PHP code style
-      id: phpcs
-      run: phpcs --report-full --report-checkstyle=./phpcs-report.xml
-    - name: Show PHPCS results in PR
-      if: ${{ always() && steps.phpcs.outcome == 'failure' }}
-      run: cs2pr ./phpcs-report.xml
+    #- name: Check PHP code style
+    #  id: phpcs
+    #  run: phpcs --report-full --report-checkstyle=./phpcs-report.xml
+    #- name: Show PHPCS results in PR
+    #  if: ${{ always() && steps.phpcs.outcome == 'failure' }}
+    #  run: cs2pr ./phpcs-report.xml
